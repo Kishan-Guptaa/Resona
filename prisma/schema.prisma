@@ -1,0 +1,60 @@
+datasource db {
+  provider = "postgresql" // or mysql/sqlite
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+
+
+model Playlist {
+  id        Int            @id @default(autoincrement())
+  name      String
+  songs     PlaylistSong[] // relation to join table
+  createdAt DateTime       @default(now())
+}
+
+model PlaylistSong {
+  id         Int      @id @default(autoincrement())
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId Int
+  song       Song     @relation(fields: [songId], references: [id])
+  songId     Int
+
+  @@unique([playlistId, songId])
+}
+
+model Song {
+  id        Int      @id @default(autoincrement())
+  title     String
+  url       String
+  cover     String?
+  album     String?
+  duration  String?
+  artistId  Int
+  artist    Artist   @relation(fields: [artistId], references: [id])
+  playlists PlaylistSong[] // <-- add this opposite relation
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artist {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  image String?
+  songs Song[]
+}
+
+
+model User {
+  id               Int      @id @default(autoincrement())
+  name             String
+  email            String   @unique
+  password         String
+  plan             String?   // optional
+  membershipExpiry DateTime? // optional
+}
+
