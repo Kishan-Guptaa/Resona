@@ -2,13 +2,14 @@
   "name": "spotify-clone",
   "version": "0.1.0",
   "private": true,
+  
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint",
-    "postinstall": "prisma generate"
-  },
+  "dev": "next dev --turbopack",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint",
+  "postinstall": "prisma generate"
+},
   "dependencies": {
     "@aws-sdk/client-s3": "^3.888.0",
     "@prisma/client": "^6.16.2",
